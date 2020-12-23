@@ -10,7 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class MongoRoleCollection {
+public class MongoRoleDocument {
 
 	@Id
 	private String id;

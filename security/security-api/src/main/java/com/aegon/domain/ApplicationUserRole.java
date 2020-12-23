@@ -1,6 +1,6 @@
 package com.aegon.domain;
 
-public enum UserRole {
+public enum ApplicationUserRole {
 	ROLE_APP_ADMIN,
 	ROLE_APP_VIEWER,
 	ROLE_TICKET_ADMIN,

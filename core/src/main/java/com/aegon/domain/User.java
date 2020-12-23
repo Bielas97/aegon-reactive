@@ -1,2 +1,5 @@
-package com.aegon.domain;public class User {
+package com.aegon.domain;
+
+public class User {
+
 }

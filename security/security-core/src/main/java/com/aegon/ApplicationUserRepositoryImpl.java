@@ -1,4 +1,4 @@
-package com.aegon.infrastructure;
+package com.aegon;
 
 import com.aegon.domain.ApplicationUser;
 import com.aegon.domain.ApplicationUserId;

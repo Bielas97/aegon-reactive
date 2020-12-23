@@ -1,4 +1,4 @@
-package com.aegon.infrastructure;
+package com.aegon;
 
 import com.aegon.domain.MongoUserDocument;
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository;

@@ -17,7 +17,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class MongoUserCollection {
+public class MongoUserDocument {
 
 	@Id
 	private String id;
@@ -37,7 +37,7 @@ public class MongoUserCollection {
 	private String password;
 
 	@DBRef
-	private Set<MongoRoleCollection> roles = new HashSet<>();
+	private Set<MongoRoleDocument> roles = new HashSet<>();
 
 
 }
