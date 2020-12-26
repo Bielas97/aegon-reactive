@@ -18,8 +18,7 @@ public class JwtAuthenticationManager implements ReactiveAuthenticationManager {
 	public Mono<Authentication> authenticate(Authentication authentication) {
 		return Mono.just(authentication)
 				.map(Authentication::getCredentials)
-				.map(obj -> JwtToken.valueOf((String) obj))
-				.map(jwtService::parseToken)
+				.map(obj -> jwtService.parseToken((JwtToken) obj))
 				.onErrorResume(e -> Mono.empty())
 				.map(userDetails -> new UsernamePasswordAuthenticationToken(userDetails.getUsername(),
 						null,

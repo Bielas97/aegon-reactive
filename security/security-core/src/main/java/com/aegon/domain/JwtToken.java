@@ -1,6 +1,5 @@
 package com.aegon.domain;
 
-import com.aegon.rest.TokenDTO;
 import lang.SimpleId;
 
 public class JwtToken extends SimpleId<String> {
@@ -13,7 +12,4 @@ public class JwtToken extends SimpleId<String> {
 		return new JwtToken(internal);
 	}
 
-	public TokenDTO toDTO() {
-		return new TokenDTO(getInternal());
-	}
 }

@@ -29,18 +29,31 @@ public class JwtService {
 	@Value("${security.secret-key}")
 	private String secretKey;
 
-	@Value("${security.expiration-time}")
-	private String expirationTime;
+	@Value("${security.access-token-expiration-time}")
+	private String accessTokenExpirationTime;
+
+	@Value("${security.refresh-token-expiration-time}")
+	private String refreshTokenExpirationTime;
 
 	public JwtToken createToken(ApplicationUserImpl user) {
-		final String roles = user.getRoles()
-				.stream()
-				.map(Enum::name)
-				.collect(Collectors.joining(","));
+		return createToken(user, Long.parseLong(accessTokenExpirationTime));
+	}
+
+	public JwtToken createToken(JwtToken refreshToken) {
+		final ApplicationUserImpl applicationUser = parseToken(refreshToken.getInternal());
+		return createToken(applicationUser, Long.parseLong(accessTokenExpirationTime));
+	}
+
+	public JwtToken createRefreshToken(ApplicationUserImpl user) {
+		return createToken(user, Long.valueOf(refreshTokenExpirationTime));
+	}
+
+	private JwtToken createToken(ApplicationUserImpl user, Long expirationTime) {
+		final String roles = joinRoles(user);
 		return JwtToken.valueOf(
 				Jwts.builder()
 						.setSubject(user.getUsername().getInternal())
-						.setExpiration(new Date(System.currentTimeMillis() + Long.parseLong(expirationTime)))
+						.setExpiration(new Date(System.currentTimeMillis() + expirationTime))
 						.setIssuedAt(new Date(System.currentTimeMillis()))
 						.signWith(SignatureAlgorithm.HS512, secretKey)
 						.claim(EMAIL_CLAIM, user.getEmail().getInternal())
@@ -50,21 +63,36 @@ public class JwtService {
 	}
 
 	public UserDetails parseToken(JwtToken token) {
-		final Claims claims = Jwts
-				.parser()
-				.setSigningKey(secretKey)
-				.parseClaimsJws(token.getInternal().replace(TOKEN_PREFIX, ""))
-				.getBody();
+		final ApplicationUserImpl applicationUser = parseToken(token.getInternal());
+		return applicationUser.toUserDetails();
+	}
+
+	private ApplicationUserImpl parseToken(String rawToken) {
+		final Claims claims = getClaims(rawToken);
 		validateClaims(claims);
 		final String username = claims.getSubject();
 		final String email = claims.get(EMAIL_CLAIM).toString();
 		final Set<ApplicationUserRole> roles = Arrays.stream(claims.get(ROLES_CLAIM).toString().split(","))
 				.map(ApplicationUserRole::valueOf)
 				.collect(Collectors.toSet());
-		final ApplicationUserImpl applicationUser = new ApplicationUserImpl(ApplicationUsername.valueOf(username),
+		return new ApplicationUserImpl(ApplicationUsername.valueOf(username),
 				Email.valueOf(email),
 				roles);
-		return applicationUser.toUserDetails();
+	}
+
+	private String joinRoles(ApplicationUserImpl user) {
+		return user.getRoles()
+				.stream()
+				.map(Enum::name)
+				.collect(Collectors.joining(","));
+	}
+
+	private Claims getClaims(String rawToken) {
+		return Jwts
+				.parser()
+				.setSigningKey(secretKey)
+				.parseClaimsJws(rawToken.replace(TOKEN_PREFIX, ""))
+				.getBody();
 	}
 
 	private void validateClaims(Claims claims) {

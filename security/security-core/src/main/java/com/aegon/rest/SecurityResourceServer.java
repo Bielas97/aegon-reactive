@@ -32,7 +32,8 @@ public class SecurityResourceServer {
 	@Bean
 	public RouterFunction<ServerResponse> securityRoutes() {
 		final SecurityResourceHandler securityHandler = new SecurityResourceHandler(userRepository, jwtService, passwordEncoder);
-		return RouterFunctions.route(POST("/login"), securityHandler::login);
+		return RouterFunctions.route(POST("/login"), securityHandler::login)
+				.andRoute(POST("/refresh-token"), securityHandler::refreshToken);
 	}
 
 	@RequiredArgsConstructor
@@ -45,22 +46,35 @@ public class SecurityResourceServer {
 		private final PasswordEncoder passwordEncoder;
 
 		private Mono<ServerResponse> login(ServerRequest request) {
-			final Mono<TokenDTO> tokenMono = request.bodyToMono(SecurityCredentials.class)
+			final Mono<TokensDTO> tokensMono = request.bodyToMono(SecurityCredentials.class)
 					.flatMap(securityCredentials -> userRepository
 							.findByUsername(securityCredentials.username)
 							.flatMap(applicationUser -> createToken(securityCredentials, applicationUser)));
 			return ServerResponse.ok()
 					.contentType(MediaType.APPLICATION_JSON)
-					.body(BodyInserters.fromPublisher(tokenMono, TokenDTO.class));
+					.body(BodyInserters.fromPublisher(tokensMono, TokensDTO.class));
 		}
 
-		private Mono<TokenDTO> createToken(SecurityCredentials securityCredentials, ApplicationUser applicationUser) {
+		private Mono<ServerResponse> refreshToken(ServerRequest request) {
+			final Mono<TokensDTO> tokensMono = request.bodyToMono(TokensDTO.class)
+					.map(tokensDTO -> {
+						final JwtToken refreshToken = JwtToken.valueOf(tokensDTO.refreshToken);
+						final JwtToken accessToken = jwtService.createToken(refreshToken);
+						return TokensDTO.of(accessToken, refreshToken);
+					});
+			return ServerResponse.ok()
+					.contentType(MediaType.APPLICATION_JSON)
+					.body(BodyInserters.fromPublisher(tokensMono, TokensDTO.class));
+		}
+
+		private Mono<TokensDTO> createToken(SecurityCredentials securityCredentials, ApplicationUser applicationUser) {
 			final ApplicationUserImpl userImpl = (ApplicationUserImpl) applicationUser;
 			if (!passwordEncoder.matches(securityCredentials.password, userImpl.getPassword().getInternal())) {
 				throw ApplicationUserException.wrongPassword();
 			}
-			final JwtToken domainToken = jwtService.createToken(userImpl);
-			return Mono.just(domainToken.toDTO());
+			final JwtToken accessToken = jwtService.createToken(userImpl);
+			final JwtToken refreshToken = jwtService.createRefreshToken(userImpl);
+			return Mono.just(TokensDTO.of(accessToken, refreshToken));
 		}
 	}
 

@@ -1,5 +1,6 @@
 package com.aegon.infrastructure;
 
+import com.aegon.domain.JwtToken;
 import com.aegon.rest.AuthorizationHeaderException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -30,8 +31,9 @@ public class SecurityContextRepository implements ServerSecurityContextRepositor
 		final String authHeader = request.getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
 
 		if (authHeader != null && authHeader.startsWith("Bearer ")) {
-			final String authToken = authHeader.substring(7);
-			final Authentication auth = new UsernamePasswordAuthenticationToken(authToken, authToken);
+			final String rawToken = authHeader.substring(7);
+			final JwtToken jwtToken = JwtToken.valueOf(rawToken);
+			final Authentication auth = new UsernamePasswordAuthenticationToken(jwtToken, jwtToken);
 			return jwtAuthenticationManager
 					.authenticate(auth)
 					.map(SecurityContextImpl::new);

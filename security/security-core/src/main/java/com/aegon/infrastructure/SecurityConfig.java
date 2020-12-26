@@ -30,7 +30,7 @@ public class SecurityConfig {
 		return http.authorizeExchange()
 
 				// ============ Allow /login route ============
-				.pathMatchers("/login")
+				.pathMatchers("/login", "/refresh-token")
 				.permitAll()
 
 				// ============ Authenticate any other routes ============
