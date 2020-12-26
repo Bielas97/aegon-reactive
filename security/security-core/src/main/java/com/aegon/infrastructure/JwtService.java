@@ -55,19 +55,28 @@ public class JwtService {
 				.setSigningKey(secretKey)
 				.parseClaimsJws(token.getInternal().replace(TOKEN_PREFIX, ""))
 				.getBody();
+		validateClaims(claims);
 		final String username = claims.getSubject();
 		final String email = claims.get(EMAIL_CLAIM).toString();
 		final Set<ApplicationUserRole> roles = Arrays.stream(claims.get(ROLES_CLAIM).toString().split(","))
 				.map(ApplicationUserRole::valueOf)
 				.collect(Collectors.toSet());
-		validateClaims(username, email, roles);
 		final ApplicationUserImpl applicationUser = new ApplicationUserImpl(ApplicationUsername.valueOf(username),
 				Email.valueOf(email),
 				roles);
 		return applicationUser.toUserDetails();
 	}
 
-	private void validateClaims(String username, String email, Set<ApplicationUserRole> roles) {
+	private void validateClaims(Claims claims) {
+		final Date expiration = claims.getExpiration();
+		if (expiration.before(new Date())) {
+			throw JwtTokenException.expired();
+		}
+		final String username = claims.getSubject();
+		final String email = claims.get(EMAIL_CLAIM).toString();
+		final Set<ApplicationUserRole> roles = Arrays.stream(claims.get(ROLES_CLAIM).toString().split(","))
+				.map(ApplicationUserRole::valueOf)
+				.collect(Collectors.toSet());
 		if (username == null || username.isEmpty() || email == null || email.isEmpty() || roles.isEmpty()) {
 			throw JwtTokenException.with("Claims are not valid");
 		}
