@@ -9,6 +9,7 @@
 		<module>core</module>
 		<module>application</module>
 		<module>security</module>
+		<module>util</module>
 	</modules>
 
 	<parent>

@@ -6,4 +6,6 @@ public interface ApplicationUserRepository {
 
 	Mono<ApplicationUser> findByUsername(String username);
 
+	Mono<ApplicationUser> save(ApplicationUser user);
+
 }

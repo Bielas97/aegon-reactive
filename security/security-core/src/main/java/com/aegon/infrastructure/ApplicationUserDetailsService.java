@@ -1,6 +1,7 @@
 package com.aegon.infrastructure;
 
-import com.aegon.domain.ApplicationUserDetails;
+import com.aegon.domain.ApplicationUserException;
+import com.aegon.domain.ApplicationUserImpl;
 import com.aegon.domain.ApplicationUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
@@ -17,6 +18,7 @@ public class ApplicationUserDetailsService implements ReactiveUserDetailsService
 	@Override
 	public Mono<UserDetails> findByUsername(String username) {
 		return userRepository.findByUsername(username)
-				.flatMap(user -> Mono.just(ApplicationUserDetails.from(user)));
+				.map(user -> ((ApplicationUserImpl) user).toUserDetails())
+				.switchIfEmpty(Mono.error(ApplicationUserException::notFound));
 	}
 }

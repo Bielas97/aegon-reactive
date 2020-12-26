@@ -1,12 +1,14 @@
 package com.aegon.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lang.SimpleId;
 
-@Getter
-@AllArgsConstructor
-public class ApplicationUserId {
+public class ApplicationUserId extends SimpleId<String> {
 
-	private final String internal;
+	private ApplicationUserId(String internal) {
+		super(internal);
+	}
 
+	public static ApplicationUserId valueOf(String id) {
+		return new ApplicationUserId(id);
+	}
 }

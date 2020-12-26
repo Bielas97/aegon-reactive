@@ -8,10 +8,10 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 import static org.springframework.web.reactive.function.server.RequestPredicates.GET;
 
 @Configuration
-public class CustomerRoutes {
+public class CustomerRoutesConfig {
 
 	@Bean
-	public RouterFunction<ServerResponse> route(CustomerHandler customerHandler) {
+	public RouterFunction<ServerResponse> customerRoutes(CustomerHandler customerHandler) {
 		return RouterFunctions.route(GET("/customers"), customerHandler::getAllCustomers);
 	}
 

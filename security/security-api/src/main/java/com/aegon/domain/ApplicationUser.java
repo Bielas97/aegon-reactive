@@ -1,23 +1,16 @@
 package com.aegon.domain;
 
 import java.util.Set;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lang.Email;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Data
-public class ApplicationUser {
+public interface ApplicationUser {
 
-	private ApplicationUserId id;
+	ApplicationUserId getId();
 
-	private String username;
+	ApplicationUsername getUsername();
 
-	private String encodedPassword;
+	Email getEmail();
 
-	private String email;
-
-	private Set<ApplicationUserRole> roles;
+	Set<ApplicationUserRole> getRoles();
 
 }

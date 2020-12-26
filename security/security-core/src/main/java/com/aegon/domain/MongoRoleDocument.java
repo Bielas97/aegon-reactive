@@ -1,9 +1,11 @@
 package com.aegon.domain;
 
+import lang.Preconditions;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "application_roles")
@@ -15,6 +17,10 @@ public class MongoRoleDocument {
 	@Id
 	private String id;
 
+	@Indexed(unique = true)
 	private ApplicationUserRole name;
 
+	public MongoRoleDocument(ApplicationUserRole name) {
+		this.name = Preconditions.requireNonNull(name);
+	}
 }
