@@ -31,22 +31,15 @@
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
 
-		<dependency>
-			<groupId>com.aegon</groupId>
-			<artifactId>lang</artifactId>
-			<version>1.0-SNAPSHOT</version>
-		</dependency>
-
 		<!--	===================== UTIL ==========================================================================	-->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.aegon</groupId>
-			<artifactId>mongo</artifactId>
+			<groupId>com.aegon.util.lang</groupId>
+			<artifactId>lang</artifactId>
 			<version>1.0-SNAPSHOT</version>
-			<scope>compile</scope>
 		</dependency>
 	</dependencies>
 

@@ -1,13 +1,12 @@
 package com.aegon.domain;
 
-import com.aegon.Email;
-import com.aegon.Preconditions;
+import com.aegon.util.lang.Email;
+import com.aegon.util.lang.Preconditions;
 import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

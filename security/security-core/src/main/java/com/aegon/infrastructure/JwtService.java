@@ -1,11 +1,11 @@
 package com.aegon.infrastructure;
 
-import com.aegon.Email;
 import com.aegon.domain.ApplicationUserImpl;
 import com.aegon.domain.ApplicationUserRole;
 import com.aegon.domain.ApplicationUsername;
 import com.aegon.domain.JwtToken;
 import com.aegon.domain.JwtTokenException;
+import com.aegon.util.lang.Email;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

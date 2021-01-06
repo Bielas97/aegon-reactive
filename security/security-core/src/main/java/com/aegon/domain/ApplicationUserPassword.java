@@ -1,6 +1,6 @@
 package com.aegon.domain;
 
-import com.aegon.SimpleId;
+import com.aegon.util.lang.SimpleId;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
