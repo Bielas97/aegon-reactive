@@ -1,5 +1,6 @@
 package com.aegon.infrastructure;
 
+import com.aegon.Email;
 import com.aegon.domain.ApplicationUserImpl;
 import com.aegon.domain.ApplicationUserRole;
 import com.aegon.domain.ApplicationUsername;
@@ -12,10 +13,10 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.Set;
 import java.util.stream.Collectors;
-import lang.Email;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
 
 @Service
 public class JwtService {
@@ -35,22 +36,22 @@ public class JwtService {
 	@Value("${security.refresh-token-expiration-time}")
 	private String refreshTokenExpirationTime;
 
-	public JwtToken createToken(ApplicationUserImpl user) {
+	public Mono<JwtToken> createToken(ApplicationUserImpl user) {
 		return createToken(user, Long.parseLong(accessTokenExpirationTime));
 	}
 
-	public JwtToken createToken(JwtToken refreshToken) {
+	public Mono<JwtToken> createToken(JwtToken refreshToken) {
 		final ApplicationUserImpl applicationUser = parseToken(refreshToken.getInternal());
 		return createToken(applicationUser, Long.parseLong(accessTokenExpirationTime));
 	}
 
-	public JwtToken createRefreshToken(ApplicationUserImpl user) {
+	public Mono<JwtToken> createRefreshToken(ApplicationUserImpl user) {
 		return createToken(user, Long.valueOf(refreshTokenExpirationTime));
 	}
 
-	private JwtToken createToken(ApplicationUserImpl user, Long expirationTime) {
+	private Mono<JwtToken> createToken(ApplicationUserImpl user, Long expirationTime) {
 		final String roles = joinRoles(user);
-		return JwtToken.valueOf(
+		return Mono.just(JwtToken.valueOf(
 				Jwts.builder()
 						.setSubject(user.getUsername().getInternal())
 						.setExpiration(new Date(System.currentTimeMillis() + expirationTime))
@@ -59,6 +60,7 @@ public class JwtService {
 						.claim(EMAIL_CLAIM, user.getEmail().getInternal())
 						.claim(ROLES_CLAIM, roles)
 						.compact()
+				)
 		);
 	}
 
@@ -75,7 +77,7 @@ public class JwtService {
 		final Set<ApplicationUserRole> roles = Arrays.stream(claims.get(ROLES_CLAIM).toString().split(","))
 				.map(ApplicationUserRole::valueOf)
 				.collect(Collectors.toSet());
-		return new ApplicationUserImpl(ApplicationUsername.valueOf(username),
+		return ApplicationUserImpl.withoutIdAndPassword(ApplicationUsername.valueOf(username),
 				Email.valueOf(email),
 				roles);
 	}

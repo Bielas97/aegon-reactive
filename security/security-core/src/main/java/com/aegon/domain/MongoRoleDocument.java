@@ -1,6 +1,6 @@
 package com.aegon.domain;
 
-import lang.Preconditions;
+import com.aegon.Preconditions;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,5 +22,9 @@ public class MongoRoleDocument {
 
 	public MongoRoleDocument(ApplicationUserRole name) {
 		this.name = Preconditions.requireNonNull(name);
+	}
+
+	public static MongoRoleDocument from(ApplicationUserRole role) {
+		return new MongoRoleDocument(role);
 	}
 }

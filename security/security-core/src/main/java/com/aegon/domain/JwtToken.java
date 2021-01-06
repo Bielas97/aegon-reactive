@@ -1,6 +1,6 @@
 package com.aegon.domain;
 
-import lang.SimpleId;
+import com.aegon.SimpleId;
 
 public class JwtToken extends SimpleId<String> {
 

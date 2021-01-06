@@ -1,6 +1,6 @@
 package com.aegon.domain;
 
-import lang.SimpleId;
+import com.aegon.SimpleId;
 
 public class ApplicationUserId extends SimpleId<String> {
 

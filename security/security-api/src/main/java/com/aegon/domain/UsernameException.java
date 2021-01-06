@@ -1,6 +1,6 @@
 package com.aegon.domain;
 
-import lang.BaseException;
+import com.aegon.BaseException;
 
 public class UsernameException extends BaseException {
 

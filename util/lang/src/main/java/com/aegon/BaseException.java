@@ -1,4 +1,4 @@
-package lang;
+package com.aegon;
 
 public class BaseException extends RuntimeException {
 

@@ -1,6 +1,6 @@
-package com.aegon.rest;
+package com.aegon.infrastructure;
 
-import lang.BaseException;
+import com.aegon.BaseException;
 
 public class AuthorizationHeaderException extends BaseException {
 
@@ -10,7 +10,7 @@ public class AuthorizationHeaderException extends BaseException {
 		super(msg);
 	}
 
-	public static AuthorizationHeaderException wrongFormat(){
+	static AuthorizationHeaderException wrongFormat(){
 		return new AuthorizationHeaderException(WRONG_FORMAT_MSG);
 	}
 }

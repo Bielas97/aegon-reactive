@@ -1,11 +1,11 @@
 package com.aegon.domain;
 
+import com.aegon.DomainRepository;
 import reactor.core.publisher.Mono;
 
-public interface ApplicationUserRepository {
+//@AdminSecured
+public interface ApplicationUserRepository extends DomainRepository<ApplicationUserId, ApplicationUser> {
 
-	Mono<ApplicationUser> findByUsername(String username);
-
-	Mono<ApplicationUser> save(ApplicationUser user);
+	Mono<ApplicationUser> findByUsername(ApplicationUsername username);
 
 }

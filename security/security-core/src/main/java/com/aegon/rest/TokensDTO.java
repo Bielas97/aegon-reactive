@@ -4,9 +4,7 @@ import com.aegon.domain.JwtToken;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
-@ToString
 @EqualsAndHashCode
 @AllArgsConstructor
 @NoArgsConstructor

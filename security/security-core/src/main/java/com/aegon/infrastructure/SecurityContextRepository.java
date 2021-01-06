@@ -1,7 +1,6 @@
 package com.aegon.infrastructure;
 
 import com.aegon.domain.JwtToken;
-import com.aegon.rest.AuthorizationHeaderException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.server.reactive.ServerHttpRequest;

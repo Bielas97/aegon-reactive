@@ -25,4 +25,5 @@ public class AegonReactiveApplication implements CommandLineRunner {
 		//		final Mono<ApplicationUser> save = userRepository.save(user);
 		//		save.subscribe();
 	}
+
 }

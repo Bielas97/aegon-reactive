@@ -1,8 +1,10 @@
 package com.aegon.domain;
 
 public enum ApplicationUserRole {
-	ROLE_APP_ADMIN,
-	ROLE_APP_VIEWER,
+	// Is able to modify tickets
 	ROLE_TICKET_ADMIN,
-	ROLE_TICKET_VIEWER
+	// Is able to sell tables/tickets
+	ROLE_TICKET_SELLER,
+	// Is able to modify users
+	ROLE_USERS_ADMIN
 }

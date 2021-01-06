@@ -1,4 +1,4 @@
-package lang;
+package com.aegon;
 
 import java.io.Serializable;
 import lombok.EqualsAndHashCode;

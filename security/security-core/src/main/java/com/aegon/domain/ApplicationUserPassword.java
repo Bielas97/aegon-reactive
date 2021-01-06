@@ -1,9 +1,8 @@
 package com.aegon.domain;
 
+import com.aegon.SimpleId;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import lang.EmailException;
-import lang.SimpleId;
 
 public class ApplicationUserPassword extends SimpleId<String> {
 
@@ -11,17 +10,18 @@ public class ApplicationUserPassword extends SimpleId<String> {
 		super(internal);
 	}
 
-	public static ApplicationUserPassword valueOf(String password){
+	public static ApplicationUserPassword valueOf(String password) {
 		// TODO
+		//		return new ApplicationUserPassword(validatePassword(password));
 		return new ApplicationUserPassword(password);
 	}
 
-	private static String validatePassword(String email) {
-		final Matcher matcher = passwordPattern().matcher(email);
+	private static String validatePassword(String password) {
+		final Matcher matcher = passwordPattern().matcher(password);
 		if (!matcher.matches()) {
 			throw ApplicationUserPasswordException.notValid();
 		}
-		return email;
+		return password;
 	}
 
 	private static Pattern passwordPattern() {

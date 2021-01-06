@@ -1,4 +1,4 @@
-package lang;
+package com.aegon;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

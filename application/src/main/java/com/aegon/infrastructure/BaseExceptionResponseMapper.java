@@ -1,7 +1,7 @@
 package com.aegon.infrastructure;
 
 import java.util.Map;
-import lang.BaseException;
+import com.aegon.BaseException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.error.ErrorAttributeOptions;
 import org.springframework.boot.web.reactive.error.DefaultErrorAttributes;
@@ -11,11 +11,15 @@ import org.springframework.web.reactive.function.server.ServerRequest;
 
 @Component
 @Slf4j
-public class BaseExceptionErrorAttributes extends DefaultErrorAttributes {
+public class BaseExceptionResponseMapper extends DefaultErrorAttributes {
 
 	private static final String ERROR_MSG = "Error has been raised!";
 
 	private static final String EXCEPTION = "Exception";
+
+	private static final String EXCEPTION_TYPE = "Exception type";
+
+	private static final String BASE_EXCEPTION_TYPE = "Base exception";
 
 	private static final String DEF_EXCEPTION_MSG = "System exception";
 
@@ -36,10 +40,12 @@ public class BaseExceptionErrorAttributes extends DefaultErrorAttributes {
 
 	private void fillAttributes(Throwable err, Map<String, Object> errorAttributes) {
 		if (err instanceof BaseException ex) {
+			errorAttributes.put(EXCEPTION_TYPE, BASE_EXCEPTION_TYPE);
 			errorAttributes.put(EXCEPTION, ex.getClass().getSimpleName());
 			errorAttributes.put(MESSAGE, ex.getMessage());
 			errorAttributes.put(STATUS, HttpStatus.BAD_REQUEST);
 		} else {
+			errorAttributes.put(EXCEPTION_TYPE, err.getClass().getSimpleName());
 			errorAttributes.put(EXCEPTION, DEF_EXCEPTION_MSG);
 			errorAttributes.put(MESSAGE, DEF_MESSAGE_MSG);
 			errorAttributes.put(STATUS, HttpStatus.INTERNAL_SERVER_ERROR);

@@ -1,6 +1,6 @@
-package lang;
+package com.aegon;
 
-public class EmailException extends BaseException{
+public class EmailException extends BaseException {
 
 	private static final String EMAIL_NOT_VALID_MSG = "Provided email does not match email pattern";
 

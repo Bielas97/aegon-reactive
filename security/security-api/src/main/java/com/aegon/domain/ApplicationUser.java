@@ -1,11 +1,10 @@
 package com.aegon.domain;
 
+import com.aegon.DomainObject;
 import java.util.Set;
-import lang.Email;
+import com.aegon.Email;
 
-public interface ApplicationUser {
-
-	ApplicationUserId getId();
+public interface ApplicationUser extends DomainObject<ApplicationUserId> {
 
 	ApplicationUsername getUsername();
 

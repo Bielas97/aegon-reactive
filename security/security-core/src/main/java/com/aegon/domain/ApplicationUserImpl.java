@@ -1,18 +1,21 @@
 package com.aegon.domain;
 
+import com.aegon.Email;
+import com.aegon.Preconditions;
 import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Collectors;
-import lang.Email;
-import lang.Preconditions;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+@EqualsAndHashCode
 public class ApplicationUserImpl implements ApplicationUser {
 
-	private ApplicationUserId id;
+	private final ApplicationUserId id;
 
 	private final ApplicationUsername username;
 
@@ -35,17 +38,29 @@ public class ApplicationUserImpl implements ApplicationUser {
 		this.password = password;
 	}
 
-	public ApplicationUserImpl(ApplicationUsername username,
+	public static ApplicationUserImpl withoutId(ApplicationUsername username,
 			Email email,
 			ApplicationUserPassword password,
 			Set<ApplicationUserRole> roles) {
-		this(null, username, email, password ,roles);
+		return new ApplicationUserImpl(null, username, email, password, roles);
 	}
 
-	public ApplicationUserImpl(ApplicationUsername username,
+	public static ApplicationUserImpl withoutIdAndPassword(ApplicationUsername username,
 			Email email,
 			Set<ApplicationUserRole> roles) {
-		this(null, username, email, null, roles);
+		return new ApplicationUserImpl(null, username, email, null, roles);
+	}
+
+	public static ApplicationUserImpl from(MongoUserDocument userDocument) {
+		return new ApplicationUserImpl(ApplicationUserId.valueOf(userDocument.getId()),
+				ApplicationUsername.valueOf(userDocument.getUsername()),
+				Email.valueOf(userDocument.getEmail()),
+				ApplicationUserPassword.valueOf(userDocument.getPassword()),
+				userDocument.getRoles().stream().map(MongoRoleDocument::getName).collect(Collectors.toSet()));
+	}
+
+	public ApplicationUserImpl withNewPassword(ApplicationUserPassword newPassword) {
+		return new ApplicationUserImpl(id, username, email, newPassword, roles);
 	}
 
 	@Override
@@ -66,6 +81,12 @@ public class ApplicationUserImpl implements ApplicationUser {
 	@Override
 	public Set<ApplicationUserRole> getRoles() {
 		return roles;
+	}
+
+	public Set<MongoRoleDocument> getMongoRoles() {
+		return roles.stream()
+				.map(MongoRoleDocument::from)
+				.collect(Collectors.toSet());
 	}
 
 	public UserDetails toUserDetails() {

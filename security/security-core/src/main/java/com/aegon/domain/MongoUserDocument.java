@@ -3,18 +3,20 @@ package com.aegon.domain;
 import java.util.HashSet;
 import java.util.Set;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
-import javax.validation.constraints.NotBlank;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "application_users")
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class MongoUserDocument {
@@ -39,12 +41,4 @@ public class MongoUserDocument {
 	@DBRef
 	private Set<MongoRoleDocument> roles = new HashSet<>();
 
-	public MongoUserDocument(@NotBlank @Size(max = 20) String username,
-			@NotBlank @Email @Size(max = 100) String email,
-			@NotBlank @Size(max = 120) String password, Set<MongoRoleDocument> roles) {
-		this.username = username;
-		this.email = email;
-		this.password = password;
-		this.roles = roles;
-	}
 }

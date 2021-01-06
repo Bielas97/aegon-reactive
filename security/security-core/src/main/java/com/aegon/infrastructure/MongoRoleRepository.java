@@ -1,4 +1,4 @@
-package com.aegon;
+package com.aegon.infrastructure;
 
 import com.aegon.domain.ApplicationUserRole;
 import com.aegon.domain.MongoRoleDocument;
