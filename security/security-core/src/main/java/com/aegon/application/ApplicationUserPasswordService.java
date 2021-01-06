@@ -23,8 +23,6 @@ public class ApplicationUserPasswordService {
 				.flatMap(username -> changePasswordOf(username, newPassword));
 	}
 
-	// TODO
-	//		Cannot create a reference to an object with a NULL id.
 	private Mono<ApplicationUserId> changePasswordOf(ApplicationUsername username, ApplicationUserPassword newPassword) {
 		return userRepository.findByUsername(username)
 				.flatMap(apiUser -> {
