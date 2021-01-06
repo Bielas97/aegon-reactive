@@ -1,8 +1,8 @@
 package com.aegon.domain;
 
+import com.aegon.util.lang.SimpleId;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import com.aegon.SimpleId;
 
 public class ApplicationUsername extends SimpleId<String> {
 

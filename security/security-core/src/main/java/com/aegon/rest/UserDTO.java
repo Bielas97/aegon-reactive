@@ -1,10 +1,10 @@
 package com.aegon.rest;
 
-import com.aegon.Email;
 import com.aegon.domain.ApplicationUserImpl;
 import com.aegon.domain.ApplicationUserPassword;
 import com.aegon.domain.ApplicationUserRole;
 import com.aegon.domain.ApplicationUsername;
+import com.aegon.util.lang.Email;
 import java.util.HashSet;
 import java.util.List;
 import lombok.AllArgsConstructor;

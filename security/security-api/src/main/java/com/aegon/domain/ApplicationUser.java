@@ -1,8 +1,8 @@
 package com.aegon.domain;
 
-import com.aegon.DomainObject;
+import com.aegon.util.lang.DomainObject;
+import com.aegon.util.lang.Email;
 import java.util.Set;
-import com.aegon.Email;
 
 public interface ApplicationUser extends DomainObject<ApplicationUserId> {
 

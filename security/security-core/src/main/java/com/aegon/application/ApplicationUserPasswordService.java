@@ -1,11 +1,11 @@
 package com.aegon.application;
 
-import com.aegon.DomainObject;
 import com.aegon.domain.ApplicationUserId;
 import com.aegon.domain.ApplicationUserImpl;
 import com.aegon.domain.ApplicationUserPassword;
 import com.aegon.domain.ApplicationUserRepository;
 import com.aegon.domain.ApplicationUsername;
+import com.aegon.util.lang.DomainObject;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.ReactiveSecurityContextHolder;
 import org.springframework.security.core.context.SecurityContext;

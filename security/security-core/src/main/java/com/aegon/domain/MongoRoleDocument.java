@@ -1,6 +1,6 @@
 package com.aegon.domain;
 
-import com.aegon.Preconditions;
+import com.aegon.util.lang.Preconditions;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -1,7 +1,7 @@
 package com.aegon.infrastructure;
 
+import com.aegon.util.lang.exception.BaseException;
 import java.util.Map;
-import com.aegon.BaseException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.error.ErrorAttributeOptions;
 import org.springframework.boot.web.reactive.error.DefaultErrorAttributes;

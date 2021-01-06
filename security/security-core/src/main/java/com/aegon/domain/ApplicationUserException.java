@@ -1,6 +1,7 @@
 package com.aegon.domain;
 
-import com.aegon.BaseException;
+import com.aegon.util.lang.exception.BaseException;
+import com.aegon.util.lang.exception.ExceptionError;
 
 public class ApplicationUserException extends BaseException {
 
@@ -9,7 +10,7 @@ public class ApplicationUserException extends BaseException {
 	private static final String WRONG_PASSWORD_MSG = "Wrong password!";
 
 	private ApplicationUserException(String msg) {
-		super(msg);
+		super(new ExceptionError(msg));
 	}
 
 	public static ApplicationUserException notFound() {
